@@ -1,0 +1,39 @@
+## traefik.yml
+
+# Docker configuration backend
+providers:
+  docker:
+    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+
+log:
+  level: "DEBUG"
+
+entryPoints:
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: "default"
+  web:
+    address: ":80"
+    # redirection http to https: https://docs.traefik.io/routing/entrypoints/#redirection
+    # dont work on container listen on port :80 if no entrypoint set to "web" (this example broke: "traefik.http.routers.api.entrypoints=web")
+    # because web not authorize the https
+    http:
+      redirections:
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
+          permanent: true
+
+tls:
+  certificates:
+    - certFile: "/etc/traefik/example.crt"
+      keyFile: "/etc/traefik/example.key"
+  options:
+    default:
+      miniVersion: "VersionTLS12"
+
+# API and dashboard configuration
+api:
+  insecure: true

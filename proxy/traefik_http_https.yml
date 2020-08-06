@@ -1,0 +1,30 @@
+## traefik.yml
+
+# Docker configuration backend
+providers:
+  docker:
+    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+
+log:
+  level: "DEBUG"
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: "default"
+
+tls:
+  certificates:
+    - certFile: "/etc/traefik/example.crt"
+      keyFile: "/etc/traefik/example.key"
+  options:
+    default:
+      miniVersion: "VersionTLS12"
+
+# API and dashboard configuration
+api:
+  insecure: true

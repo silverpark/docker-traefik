@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Stop on error
+set -e
+
+# Source env file
+source .env
+
+BASE_CONTAINERS=${BASE_CONTAINERS:-"proxy whoami1 whoami2 app api"}
+
+first_arg=${1:-up}
+second_arg=${2:-base}
+
+echo $first_arg
+echo $second_arg
+
+if [ "$first_arg" == "up" ]; then
+
+  case "${second_arg}" in
+      base)           docker-compose up -d "${@:3}" ${BASE_CONTAINERS} ;;
+      *)              docker-compose up -d "${@:2}" ;;
+  esac
+
+else
+
+  docker-compose "$@"
+
+fi
+
