@@ -2,7 +2,7 @@
 
 Monitoring: http://localhost:8080
 
-## simple reverse proxy (http and https)
+## simple reverse proxy (entrypoint http and https)
 
 Use  `traefik_http_https` traefik configuration
 
@@ -11,7 +11,7 @@ http://whoami2-docker-traefik.docker.localhost/
 https://app-docker-traefik.docker.localhost/
 http://api-docker-traefik.docker.localhost/
 
-## reverse proxy with redirection http to https
+## reverse proxy with redirection (entry point http to https)
 
 Use  `traefik_https_to_http` traefik configuration
 
