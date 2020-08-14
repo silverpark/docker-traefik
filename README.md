@@ -29,4 +29,4 @@ docker container stop $(docker container ps -aq) ;\
 docker container rm -f $(docker container ps -aq) ;\ 
 docker-compose -f docker-compose.yml -p traefik up -d ;\ 
 docker-compose -f docker-compose2.yml -p whoami1 up -d ;\ 
-docker-compose -f docker-compose3.yml -p whoami2 up -d
+docker-compose -f docker-compose3.yml -p whoami2 up -d ;\

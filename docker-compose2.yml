@@ -4,8 +4,8 @@ services:
 
   whoami1:
     image: containous/whoami
-    ports:
-      - "8040:80"
+    expose:
+      - "80"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami1.entrypoints=web"
