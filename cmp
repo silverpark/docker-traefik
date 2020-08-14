@@ -17,24 +17,26 @@ if [ "$hasGatewayNetwork" == "0" ]; then
     gateway
 fi
 
-BASE_CONTAINERS=${BASE_CONTAINERS:-"proxy whoami1 whoami2 app api"}
+BASE_CONTAINERS=${BASE_CONTAINERS:-"proxy whoami1 whoami2"}
 
 first_arg=${1:-up}
-second_arg=${2:-base}
+second_arg=${2:-}
 
-echo $first_arg
-echo $second_arg
+echo "arg1:$first_arg"
+echo "arg2:$second_arg"
 
 if [ "$first_arg" == "up" ]; then
 
+  # Launch traefik by default
+  docker-compose -f docker-compose.yml -p traefik up -d
+
   case "${second_arg}" in
-      base)           docker-compose up -d "${@:3}" ${BASE_CONTAINERS} ;;
-      *)              docker-compose up -d "${@:2}" ;;
+      base)           docker-compose -f docker-compose2.yml -f docker-compose3.yml -p ${COMPOSE_PROJECT_NAME:-apps} up -d "${@:3}" ${BASE_CONTAINERS} ;;
+      *)              docker-compose -f docker-compose2.yml -f docker-compose3.yml -p ${COMPOSE_PROJECT_NAME:-apps} up -d "${@:2}" ;;
   esac
 
-else
-
-  docker-compose "$@"
+  exit
 
 fi
 
+docker-compose -f docker-compose.yml -f docker-compose2.yml -f docker-compose3.yml "$@"
