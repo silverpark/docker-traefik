@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+
+  whoami2:
+    image: containous/whoami
+    ports:
+      - "8041:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami2.entrypoints=web"
+    networks:
+      - default
+      - whoami2
+
+networks:
+  default:
+    external:
+      name: gateway
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: ${DOCKER_SUBNET}
+  whoami2:
+    internal: true

@@ -22,3 +22,11 @@ http://api-docker-traefik.docker.localhost/
 
 API does not work because we can't authorize to access in https
 If you want, you just change this line `"traefik.http.routers.api.entrypoints=web"` to `"traefik.http.routers.api.entrypoints=websecure"`
+
+## execute multiple docker compose
+
+docker container stop $(docker container ps -aq) ;\ 
+docker container rm -f $(docker container ps -aq) ;\ 
+docker-compose -f docker-compose.yml -p traefik up -d ;\ 
+docker-compose -f docker-compose2.yml -p whoami1 up -d ;\ 
+docker-compose -f docker-compose3.yml -p whoami2 up -d

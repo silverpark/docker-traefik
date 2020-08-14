@@ -6,6 +6,17 @@ set -e
 # Source env file
 source .env
 
+# Create gateway network
+hasGatewayNetwork=$(docker network ls | grep gateway | wc -l)
+if [ "$hasGatewayNetwork" == "0" ]; then
+  echo "Create gateway network:"
+  docker network create \
+    --driver=bridge \
+    --attachable \
+    --internal=false \
+    gateway
+fi
+
 BASE_CONTAINERS=${BASE_CONTAINERS:-"proxy whoami1 whoami2 app api"}
 
 first_arg=${1:-up}
